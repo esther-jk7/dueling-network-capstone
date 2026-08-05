@@ -7,14 +7,14 @@ class SingleStreamNetwork(nn.Module):
     Baseline network from Wang et al. (2016).
     Outputs one Q-value per action.
     """
-    def __init__(self, state_dim, num_actions):
+    def __init__(self, state_dim, hidden_dim, num_actions):
         super(SingleStreamNetwork, self).__init__()
         self.net = nn.Sequential(
-            nn.Linear(state_dim, 512),
+            nn.Linear(state_dim, hidden_dim),
             nn.ReLU(),
-            nn.Linear(512, 512),
+            nn.Linear(hidden_dim, hidden_dim),
             nn.ReLU(),
-            nn.Linear(512, num_actions)
+            nn.Linear(hidden_dim, num_actions)
         )
 
     def forward(self, state):

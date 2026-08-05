@@ -6,27 +6,27 @@ class DuelingNetwork(nn.Module):
     Dueling Network Architecture - Wang et al. (2016).
     Q(s,a) = V(s) + (A(s,a) - mean(A(s, all actions)))
     """
-    def __init__(self, state_dim, num_actions):
+    def __init__(self, state_dim, num_actions, shared_dim, stream_dim):
         super(DuelingNetwork, self).__init__()
 
         # shared trunk
         self.shared = nn.Sequential(
-            nn.Linear(state_dim, 512),
+            nn.Linear(state_dim, shared_dim),
             nn.ReLU()
         )
 
         # V(s): single number per state
         self.value_stream = nn.Sequential(
-            nn.Linear(512, 512),
+            nn.Linear(shared_dim, stream_dim),
             nn.ReLU(),
-            nn.Linear(512, 1)
+            nn.Linear(stream_dim, 1)
         )
 
         # A(s,a): one number per action
         self.advantage_stream = nn.Sequential(
-            nn.Linear(512, 512),
+            nn.Linear(shared_dim, stream_dim),
             nn.ReLU(),
-            nn.Linear(512, num_actions)
+            nn.Linear(stream_dim, num_actions)
         )
 
     def forward(self, state):
