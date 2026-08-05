@@ -2,7 +2,9 @@ import torch
 import torch.nn as nn
 
 def select_action(net, state, num_actions, epsilon=0.001):
-    """Epsilon-greedy action selection. Wang et al. (2016) uses epsilon=0.001"""
+    """
+    
+    """
     if torch.rand(1).item() < epsilon:
         return torch.randint(num_actions, (1,)).item()  # random action
     with torch.no_grad():
@@ -12,8 +14,7 @@ def select_action(net, state, num_actions, epsilon=0.001):
 
 def ddqn_update(online_net, target_net, optimizer, batch, gamma=0.99):
     """
-    DDQN update step - van Hasselt et al. (2016).
-    online_net selects action, target_net evaluates it.
+    
     """
     states, actions, rewards, next_states, dones = batch
 
@@ -38,5 +39,7 @@ def ddqn_update(online_net, target_net, optimizer, batch, gamma=0.99):
 
 
 def sync_target(online_net, target_net):
-    """Copy online network weights into target network."""
+    """
+    Copies online network weights into target network.
+    """
     target_net.load_state_dict(online_net.state_dict())
