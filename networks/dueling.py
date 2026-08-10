@@ -33,4 +33,5 @@ class DuelingNetwork(nn.Module):
         shared_out = self.shared(state)
         value = self.value_stream(shared_out)
         advantage = self.advantage_stream(shared_out)
-        return value + (advantage - advantage.mean(dim=1, keepdim=True))
+        advantage = advantage - advantage.mean(dim=1, keepdim=True)
+        return value + advantage

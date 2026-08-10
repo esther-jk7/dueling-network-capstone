@@ -2,7 +2,7 @@
     Drew Hill & Esther Suravarapu
 
     corridor.py
-    
+
     This class acts as the enviornment for the corridor experiment.
 """
 import numpy as np
@@ -27,7 +27,7 @@ class CorridorEnv:
     def reset(self):
         """
             Resets the enviornment to the original setup.
-            
+
             returns the current state after reset.
         """
         self.current_state = self.start_state
@@ -41,45 +41,52 @@ class CorridorEnv:
 
             state: int - The state before transition.
             action: str - The action to take.
-            raises ValueError if  invalid action is passed.
             returns the next state from the transition.
         """
         # Returns state if it is the end state.
-        if state ==  self.end_state:
+        if state == self.end_state:
             return state
 
-        # Checks if the current state is one the 50 horzontal corridor states.
-        if self.horz_start <= state < self.horz_end:
-            # Determines transition based on action in horizontal corridor.
-            if action == self.actions["right"]:
+        # action 0: move right (horizontal)
+        if action == 0:
+            if self.horz_start <= state < self.horz_end:
                 return state + 1
-            
-            elif action == self.actions["left"]:
+            return state
+
+        # action 1: move left (horizontal)
+        elif action == 1:
+            if self.horz_start <= state < self.horz_end:
                 return state - 1
+            return state
 
-            else:
-                return state
-
-        # Checks if the current state is one of the 10 non horizontal states.
-        else:
-            # Determines transition based on action in non horizontal corridor.
-            if action == self.actions["forward"]:
+        # action 2: move forward (vertical)
+        elif action == 2:
+            if not (self.horz_start <= state < self.horz_end):
                 return min(self.end_state, state + 1)
+            return state
 
-            elif action == self.actions["back"]:
+        # action 3: move back (vertical)
+        elif action == 3:
+            if not (self.horz_start <= state < self.horz_end):
                 return max(self.start_state, state - 1)
-            
-            else:
-                return state
+            return state
+
+        # action 4+: pure no-op everywhere
+        else:
+            return state
 
     def step(self, action):
         """
-            Applies an action and returns the next state, reward and if state 
+            Applies an action and returns the next state, reward and if state
             is terminal.
 
             action: str - The action to take.
             returns next state, reward and if state is terminal.
         """
+        # if already at terminal, stay and return no reward
+        if self.current_state == self.end_state:
+            return self.current_state, 0, True
+
         next_state = self.transition(self.current_state, action)
 
         if next_state == self.end_state:
