@@ -20,18 +20,20 @@ This repository contains a reproduction of the corridor experiment from the Duel
 ```
 dueling-network-capstone/
 ├── networks/
-│   ├── single_stream.py       # Baseline single-stream Q-network
-│   └── dueling.py             # Dueling network (V + A streams, Equation 9)
+│   ├── single_stream.py          # Baseline single-stream Q-network
+│   └── dueling.py                # Dueling network (V + A streams, Equation 9)
 ├── training/
-│   ├── ddqn.py                # DDQN training with target clamping
-│   └── expected_sarsa.py      # Expected SARSA training (Drew)
+│   ├── ddqn.py                   # DDQN training with target clamping
+│   └── expected_sarsa.py         # Expected SARSA training (Drew)
 ├── enviornments/
-│   └── corridor.py            # 70-state corridor environment (Drew)
+│   └── corridor.py               # 70-state corridor environment (Drew)
 ├── experiments/
-│   ├── evaluation.py          # Value iteration, policy evaluation, SE metric (Drew)
-│   ├── run_td0.py             # Primary experiment: TD(0) policy evaluation
-│   ├── run.py                 # Additional experiments: Expected SARSA + DDQN
-│   └── run_corridor_experiment.ipynb  # Drew's experiment notebook
+│   ├── evaluation.py             # Value iteration, policy evaluation, SE metric (Drew)
+│   ├── run_td0.ipynb             # Primary experiment: TD(0) policy evaluation
+│   ├── run.ipynb                 # Additional experiments: Expected SARSA + DDQN
+│   └── corridor_visual.py        # Corridor visualization
+├── td0_results.png               # Primary result learning curves
+├── corridor_full_results.png     # SARSA vs DDQN comparison curves
 └── README.md
 ```
 
@@ -55,22 +57,12 @@ pip install torch numpy matplotlib
 ## Running Experiments
 
 ### Primary Experiment — TD(0) Policy Evaluation
-This reproduces the corridor experiment from the paper using episode-based TD(0):
+This reproduces the corridor experiment from the paper using episode-based TD(0).
 
-```bash
-cd experiments
-python3 run_td0.py
-```
-
-This runs both single-stream and dueling networks across 5, 10, and 20 actions, averaged over 5 random seeds. Takes approximately 30–40 minutes. Outputs `td0_results.png` with learning curves.
+Open `experiments/run_td0.ipynb` in Jupyter Notebook, Google Colab, or VS Code and run all cells. This trains both single-stream and dueling networks across 5, 10, and 20 actions, averaged over 5 random seeds. Takes approximately 30–40 minutes. Outputs learning curves and final squared error values.
 
 ### Additional Experiments — Expected SARSA and DDQN
-```bash
-cd experiments
-python3 run.py
-```
-
-Compares Expected SARSA and DDQN as alternative training algorithms. Generates learning curve plots for both.
+Open `experiments/run.ipynb` and run all cells. This compares Expected SARSA and DDQN as alternative training algorithms and generates comparison plots.
 
 ## Results
 
@@ -112,8 +104,8 @@ The paper uses **episode-based TD(0) policy evaluation** — the agent walks thr
 
 | Member | Responsibilities |
 |--------|-----------------|
-| Esther Suravarapu | Network architectures (single-stream, dueling), training algorithms (DDQN, TD(0)), bug identification and fixes, experiment runner (run_td0.py) |
-| Drew Hill | Corridor environment, evaluation pipeline (value iteration, policy evaluation), Expected SARSA training, experiment notebook |
+| Esther Suravarapu | Network architectures (single-stream, dueling), training algorithms (DDQN, TD(0)), bug identification and fixes, experiment runner (run_td0) |
+| Drew Hill | Corridor environment, evaluation pipeline (value iteration, policy evaluation), Expected SARSA training, notebook conversion |
 
 ## References
 
