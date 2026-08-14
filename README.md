@@ -105,7 +105,7 @@ The paper uses **episode-based TD(0) policy evaluation** — the agent walks thr
 | Member | Responsibilities |
 |--------|-----------------|
 | Esther Suravarapu | Network architectures (single-stream, dueling), training algorithms (DDQN, TD(0)), bug identification and fixes, experiment runner (run_td0) |
-| Drew Hill | Corridor environment, evaluation pipeline (value iteration, policy evaluation), Expected SARSA training, notebook conversion |
+| Drew Hill | Corridor environment, evaluation pipeline (value iteration, policy evaluation), Expected SARSA training, experiment notebook |
 
 ## References
 
