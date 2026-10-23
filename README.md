@@ -15,6 +15,8 @@ This repository contains a reproduction of the corridor experiment from the Duel
 
 **Key result:** Dueling outperforms single-stream at all three action counts, with the advantage growing as actions increase (23% → 27% → 51% lower squared error). This confirms the paper's core claim.
 
+![TD(0) results: dueling vs single-stream at 5, 10, 20 actions](experiments/td0_results.png)
+
 ## Repository Structure
 
 ```
@@ -31,8 +33,8 @@ dueling-network-capstone/
 │   ├── evaluation.py             # Value iteration, policy evaluation, SE metric (Drew)
 │   ├── run_td0.ipynb             # Primary experiment: TD(0) policy evaluation
 │   ├── run.ipynb                 # Additional experiments: Expected SARSA + DDQN
-│   └── corridor_visual.py        # Corridor visualization
-├── td0_results.png               # Primary result learning curves
+│   ├── corridor_visual.py        # Corridor visualization
+│   └── td0_results.png           # Primary result learning curves
 ├── corridor_full_results.png     # SARSA vs DDQN comparison curves
 └── README.md
 ```
@@ -51,7 +53,7 @@ git clone https://github.com/esther-jk7/dueling-network-capstone.git
 cd dueling-network-capstone
 python3 -m venv venv
 source venv/bin/activate
-pip install torch numpy matplotlib
+pip install -r requirements.txt
 ```
 
 ## Running Experiments
@@ -59,7 +61,7 @@ pip install torch numpy matplotlib
 ### Primary Experiment — TD(0) Policy Evaluation
 This reproduces the corridor experiment from the paper using episode-based TD(0).
 
-Open `experiments/run_td0.ipynb` in Jupyter Notebook, Google Colab, or VS Code and run all cells. This trains both single-stream and dueling networks across 5, 10, and 20 actions, averaged over 5 random seeds. Takes approximately 30–40 minutes. Outputs learning curves and final squared error values.
+Open `experiments/run_td0.ipynb` in Jupyter Notebook, Google Colab, or VS Code and run all cells. This trains both single-stream and dueling networks across 5, 10, and 20 actions, with 5,000 episodes per run, averaged over 5 random seeds. Takes about 90 minutes on a laptop CPU. Final values are saved in the notebook output. Outputs learning curves and final squared error values.
 
 ### Additional Experiments — Expected SARSA and DDQN
 Open `experiments/run.ipynb` and run all cells. This compares Expected SARSA and DDQN as alternative training algorithms and generates comparison plots.
@@ -81,7 +83,7 @@ Dueling outperforms single-stream at all action counts. The advantage grows with
 | Algorithm       | Type       | Stability | Notes |
 |----------------|------------|-----------|-------|
 | TD(0)          | Prediction | Stable    | Paper's method. Best results. |
-| Expected SARSA | Prediction | Stable    | Consistent with TD(0) findings. |
+| Expected SARSA | Prediction | Stable    | Exploratory run; dueling did not outperform single-stream in our results (`results_*.npz`). |
 | DDQN           | Control    | Unstable  | Requires target clamping. Max operator causes overestimation. |
 
 ## Key Implementation Details
